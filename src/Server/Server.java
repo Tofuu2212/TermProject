@@ -24,7 +24,6 @@ public class Server {
     public Server(int port) throws IOException {
         myPort = port;
         myServerSocket = new ServerSocket(port);
-
     }
 
     //infinite loop to listen for client requests
@@ -58,4 +57,3 @@ public class Server {
         server.listen();
     }
 }
-
