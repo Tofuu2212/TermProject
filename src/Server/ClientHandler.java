@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable {
             out.writeObject(message);
             out.flush();
         } catch (Exception e) { //general exception can handle multiple execptions
-            System.err.println("receive failed");
+            System.err.println("send failed");
         }
     }
 
@@ -68,6 +68,7 @@ public class ClientHandler implements Runnable {
             message = (Message) in.readObject();
         } catch (Exception e) { //general exception can handle multiple execptions
             System.err.println("receive failed");
+            active = false;
         }
         return message;
     }

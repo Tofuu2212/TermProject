@@ -32,6 +32,8 @@ public class Client {
     protected ObjectOutputStream out;
     protected ObjectInputStream in;
     clientMessageHandler clientListener;
+    ClientView clientView;
+    GameView gameView;
 
     public Client(String host, int port) throws IOException {
         myClientSocket = new Socket(host, port);
@@ -52,7 +54,7 @@ public class Client {
         thread.start();
     }
 
-    private void sendMessage(Message msg) {
+    public void sendMessage(Message msg) {
         try {
             out.writeObject(msg);
             out.flush();
@@ -64,10 +66,13 @@ public class Client {
     private void createAndShowGUI() {
         JFrame frame = new JFrame("Client Window");
         frame.setSize(500, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-        JPanel panel = new JPanel();
-        frame.add(panel);
+        // https://docs.oracle.com/javase/7/docs/api/javax/swing/JFrame.html#setDefaultCloseOperation(int);
+
+        //clientView = new ClientView(clientListener, this);
+        gameView = new GameView(clientListener, this);
+        frame.add(gameView);
         frame.setVisible(true);
     }
 

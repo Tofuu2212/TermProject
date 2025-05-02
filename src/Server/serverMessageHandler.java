@@ -14,9 +14,24 @@ import Message.*;
 
 public final class serverMessageHandler {
 
-    //probably has to be static
+    static Type currentType;
+
+    //probably has to be static and maybe also syncrhonized unless it's only called from one place like the main thread?
     public static void parse(Message message) {
-        System.out.println(message.getDummydata());
+
+        currentType = message.getType();
+
+        switch (currentType) {
+            case DUMMY_ONE:
+                System.out.println("Type 1: " + message);
+                break;
+            case DUMMY_TWO:
+                System.out.println("Type 2: " + message);
+                break;
+            default:
+                System.out.println("ok... whatever ");
+        }
+
     }
 
 }

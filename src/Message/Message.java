@@ -20,6 +20,7 @@ public class Message implements Serializable {
     public String getDummydata() {
         return dummydata;
     }
+    public Type getType() { return type; }
 
     @Override
     public String toString() {
