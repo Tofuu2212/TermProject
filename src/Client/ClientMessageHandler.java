@@ -95,7 +95,7 @@ public class ClientMessageHandler implements Runnable {
         return message;
     }
 
-    public synchronized void sendMessage(Message msg) {
+    public void sendMessage(Message msg) {
         try {
             out.writeObject(msg);
             out.flush();

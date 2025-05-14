@@ -77,13 +77,14 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public synchronized Message receive() {
+    public Message receive() {
         Message message = null;
         try {
-            if (debug) System.out.println("In receive for msg id: " + message.id);
+            //if (debug) System.out.println("In receive for msg id: " + message.id);
             message = (Message) in.readObject();
-            addMsgToQueue(message);
-            if (debug) System.out.println("read msg id " + message.id);
+            if (message != null)
+                addMsgToQueue(message);
+            //if (debug) System.out.println("read msg id " + message.id);
         } catch (Exception e) {
             System.err.println("client handler receive failed, " + e.getMessage());
             //active = false;
@@ -91,7 +92,7 @@ public class ClientHandler implements Runnable {
         return message;
     }
 
-    public synchronized void addMsgToQueue(Message message) {
+    public void addMsgToQueue(Message message) {
         messageQueue.add(message);
     }
 

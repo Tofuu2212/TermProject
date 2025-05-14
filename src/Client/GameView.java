@@ -9,14 +9,14 @@ import java.util.ArrayList;
 
 public class GameView extends JPanel implements Runnable {
 
-    final int MAP_SIZE = 512;
+    final int MAP_SIZE = 256;
 
     Client myClient;
     ClientMessageHandler clientListener;
     ArrayList<DrawObject> drawObjects = new ArrayList<>();
 
     // Panel size
-    public int scale = 2;
+    public int scale = 1;
     public static final int PANEL_SIZE_X = 1280;
     public static final int PANEL_SIZE_Y = 720;
 
@@ -71,6 +71,8 @@ public class GameView extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
 
+        System.out.println("paintComponents called");
+
         //MapPartitionTest.Champion c = map.player;
         if (locked) {
             cameraX = playerX;
@@ -110,18 +112,20 @@ public class GameView extends JPanel implements Runnable {
         repaint();
     }
 
-    public synchronized void update() {
+    public void update() {
         repaint();
     }
 
     @Override
     public void run() {
-
-        update();
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        while (true) {
+            System.out.println("Game view running");
+            update();
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

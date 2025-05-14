@@ -17,7 +17,7 @@ public final class ServerMessageParser {
     static Type currentType;
 
     //probably has to be static and maybe also syncrhonized unless it's only called from one place like the main thread?
-    public synchronized static void parse(Message message, Game game) {
+    public static void parse(Message message, Game game) {
 
         currentType = message.mainType;
 
