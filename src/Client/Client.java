@@ -23,7 +23,8 @@ public class Client {
     public void start() {
         Thread thread = new Thread(clientListener);
         thread.start();
-        createAndShowGUI();
+        //createAndShowGUI();
+        gameView = new GameView(clientListener, this);
     }
 
     private void createAndShowGUI() {
@@ -37,7 +38,15 @@ public class Client {
         //clientView = new ClientView(clientListener, this);
         gameView = new GameView(clientListener, this);
         frame.add(gameView);
+        Thread gameThread = new Thread(gameView);
+        gameThread.start();
         frame.setVisible(true);
+    }
+
+    public void listen() {
+        while (true) {
+            clientListener.receive();
+        }
     }
 
     public static void main(String[] args) throws IOException {

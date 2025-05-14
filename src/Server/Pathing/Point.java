@@ -4,8 +4,8 @@ import Server.Game;
 
 public class Point {
 
-    double x = 0;
-    double y = 0;
+    public double x = 0;
+    public double y = 0;
 
     public Point(double x, double y) {
         this.x = x < 0 ? 0 : (x >= Game.MAP_SIZE ? Game.MAP_SIZE - 1 : x);

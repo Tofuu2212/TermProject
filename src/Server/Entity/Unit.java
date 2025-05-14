@@ -9,8 +9,10 @@ import Server.Game;
 public class Unit extends Entity {
 
     int health;
+    int attackRange;
 
-    public Unit(Game map, int x, int y, int size, int speed, int id) {
+    public Unit(Game map, int x, int y, int size, double speed, int id) {
         super(map, x, y, size, speed, id);
+        targetable = true;
     }
 }

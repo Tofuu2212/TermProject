@@ -8,14 +8,17 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+import Message.*;
+
 public class Game implements Runnable {
 
     public static final int MAP_SIZE = 512;
+    int numEntities = 0;
 
     //Map Paritioning
     public final int MAP_PARTITIONS = 16;
     public final int COLLISION_BUFFER = 20; //size of largest minion radius
-    Set<Entity>[][] entities = new HashSet[MAP_PARTITIONS][MAP_PARTITIONS];
+    public Set<Entity>[][] entities = new HashSet[MAP_PARTITIONS][MAP_PARTITIONS];
 
     //Terrain Map
     public static final int TERRAIN_MAP_SIZE = 64;
@@ -24,9 +27,11 @@ public class Game implements Runnable {
 
     GameEvents gameEvents;
 
-    Champion player;
+    public Champion player;
+    ClientHandler playerClient;
 
-    public Game() throws FileNotFoundException {
+    public Game(ClientHandler playerClient) throws FileNotFoundException {
+        this.playerClient = playerClient;
         //MapPartition constructor:
         for (int i = 0; i < MAP_PARTITIONS; i++) {
             for (int j = 0; j < MAP_PARTITIONS; j++) {
@@ -42,6 +47,19 @@ public class Game implements Runnable {
             }
         }
         gameEvents = new GameEvents(this);
+    }
+
+    //y is row, x is col
+    //does not check that minion is spawned "in bounds" (0 to MAP_SIZE - 1)
+    public Minion spawnMinion(int x, int y) {
+        Minion m = new Minion(this, x, y, numEntities);
+        entities[y * MAP_PARTITIONS / MAP_SIZE][x * MAP_PARTITIONS / MAP_SIZE].add(m);
+        numEntities++;
+        return m;
+    }
+
+    public void removeMinion(Minion m) {
+        entities[m.y * MAP_PARTITIONS / MAP_SIZE][m.x * MAP_PARTITIONS / MAP_SIZE].remove(m);
     }
 
     public static int intSqrt(int s) {
@@ -99,11 +117,30 @@ public class Game implements Runnable {
 
         while (true) {
             try {
-                System.out.println("Game logic loop gogogo!");
-                Thread.sleep(500);
+                update();
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public synchronized void update() {
+        for (int i = 0; i < MAP_PARTITIONS; i++) {
+            for (int j = 0; j < MAP_PARTITIONS; j++) {
+                for (Entity e : entities[j][i]) { //j is y, i is x
+                    e.update();
+                    System.out.println("on entity: " + e.toString());
+                    Message m = new Message(e.id, false, e.x, e.y, e.type, e.type);
+                    playerClient.send(m);
+                }
+            }
+        }
+    }
+
+    public synchronized void readMessages() {
+        for (Message m : playerClient.messageQueue) {
+            ServerMessageParser.parse(m, this);
         }
     }
 }

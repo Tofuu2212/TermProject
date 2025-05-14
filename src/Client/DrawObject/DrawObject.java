@@ -1,11 +1,13 @@
 package Client.DrawObject;
 
 import java.awt.*;
+import Message.*;
 
-abstract class DrawObject {
-    int x;
-    int y;
-    int id;
+public abstract class DrawObject {
+    public int x;
+    public int y;
+    public int id;
+    public Type type;
 
     public DrawObject(int x, int y) {
         this.x = x;
@@ -20,5 +22,5 @@ abstract class DrawObject {
         this.id = id;
     }
 
-    public abstract void draw(Graphics2D g2d);
+    public abstract void draw(Graphics g, int drawOffsetX, int drawOffsetY, int scale);
 }

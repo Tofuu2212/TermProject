@@ -35,7 +35,7 @@ public class Server {
             try {
                 Socket acceptedSocket = myServerSocket.accept();
                 ClientHandler handler = new ClientHandler(acceptedSocket);
-                Game game = new Game();
+                Game game = new Game(handler); //game.addPlayer(this)
                 handler.setGame(game);
                 Thread clientThread = new Thread(handler);
                 clientThread.start();

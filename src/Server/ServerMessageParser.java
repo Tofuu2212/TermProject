@@ -17,13 +17,14 @@ public final class ServerMessageParser {
     static Type currentType;
 
     //probably has to be static and maybe also syncrhonized unless it's only called from one place like the main thread?
-    public static void parse(Message message) {
+    public static void parse(Message message, Game game) {
 
-        currentType = message.getType();
+        currentType = message.mainType;
 
         switch (currentType) {
-            case DUMMY_ONE:
-                System.out.println("Type 1: " + message);
+            case RIGHT_CLICK:
+                System.out.println("right clicked: " + message);
+                game.player.setPath(message.x, message.y);
                 break;
             case DUMMY_TWO:
                 System.out.println("Type 2: " + message);

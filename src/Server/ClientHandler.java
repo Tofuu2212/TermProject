@@ -18,10 +18,14 @@ package Server;
 
 import java.io.*;
 import java.net.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import Message.*;
 
 public class ClientHandler implements Runnable {
+
+    boolean debug = true;
 
     boolean active = true;
 
@@ -29,12 +33,16 @@ public class ClientHandler implements Runnable {
     protected ObjectOutputStream out;
     protected ObjectInputStream in;
 
+    Queue<Message> messageQueue;
+
     Game game;
 
     public ClientHandler(Socket socket) {
         handlerSocket = socket;
+        messageQueue = new LinkedList<Message>();
         try {
             out = new ObjectOutputStream(handlerSocket.getOutputStream());
+            out.flush();
             in = new ObjectInputStream(handlerSocket.getInputStream());
         } catch (IOException e) {
             System.err.println("error setting up client handler");
@@ -49,8 +57,8 @@ public class ClientHandler implements Runnable {
     public void run() {
         while (active) {
             try {
-                ServerMessageParser.parse(receive());
-                Thread.yield(); // or sleep
+                receive();
+                //Thread.yield(); // or sleep
             } catch (Exception e) {
                 break;
             }
@@ -60,8 +68,10 @@ public class ClientHandler implements Runnable {
 
     public void send(Message message) {
         try {
+            if (debug) System.out.println("In send, msg id: " + message.id);
             out.writeObject(message);
             out.flush();
+            if (debug) System.out.println("send msg id " + message.id);
         } catch (Exception e) {
             System.err.println("client handler send failed");
         }
@@ -70,12 +80,19 @@ public class ClientHandler implements Runnable {
     public Message receive() {
         Message message = null;
         try {
+            if (debug) System.out.println("In receive");
             message = (Message) in.readObject();
+            addMsgToQueue(message);
+            if (debug) System.out.println("read msg id " + message.id);
         } catch (Exception e) {
             System.err.println("client handler receive failed");
             active = false;
         }
         return message;
+    }
+
+    public synchronized void addMsgToQueue(Message message) {
+        messageQueue.add(message);
     }
 
     public void stop() {

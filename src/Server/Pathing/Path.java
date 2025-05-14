@@ -34,6 +34,13 @@ public class Path {
         makePath();
     }
 
+    public Path(Point B, Entity entity, boolean simple) {
+        this.A = new Point(entity.x, entity.y);
+        this.B = B;
+        this.entity = entity;
+        makeSimplePath();
+    }
+
     //Projectiles use simple path
     public void makeSimplePath() {
         path.add(A);

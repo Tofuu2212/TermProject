@@ -6,19 +6,22 @@ package Message;
 import java.io.Serializable;
 
 public class Message implements Serializable {
-    int id;
-    boolean kill;
-    int x;
-    int y;
+    public int id;
+    public boolean kill;
+    public int x;
+    public int y;
 
-    Type mainType;
-    Type subType;
+    public Type mainType;
+    public Type subType;
 
-    public Message() {
-
+    public Message(int id, boolean kill, int x, int y, Type mainType, Type subType) {
+        this.id = id;
+        this.kill = kill;
+        this.x = x;
+        this.y = y;
+        this.mainType = mainType;
+        this.subType = subType;
     }
-
-    public Type getType() { return null; }
 
     @Override
     public String toString() {
