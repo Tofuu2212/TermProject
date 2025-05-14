@@ -38,8 +38,8 @@ public class Server {
                 Game game = new Game(handler); //game.addPlayer(this)
                 handler.setGame(game);
                 Thread clientThread = new Thread(handler);
-                clientThread.start();
                 Thread gameThread = new Thread(game);
+                clientThread.start();
                 gameThread.start();
 
             } catch (Exception e) {

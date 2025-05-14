@@ -5,6 +5,7 @@ import Message.Type;
 import java.awt.*;
 
 public class DrawObjChampion extends DrawObject {
+
     private static final int radius = 20;
 
     public DrawObjChampion(int x, int y) {

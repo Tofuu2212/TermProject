@@ -9,8 +9,8 @@ import Server.Pathing.Point;
 
 public class Champion extends Unit {
 
-    public Champion(Game map, int x, int y) {
-        super(map, x, y, 20,1, 10);
+    public Champion(Game map, int x, int y, int id) {
+        super(map, x, y, 20,1, id);
         health = 200;
         type = Type.CHAMPION;
     }

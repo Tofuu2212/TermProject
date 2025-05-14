@@ -37,7 +37,7 @@ public class GameView extends JPanel implements Runnable {
     public int cameraDragY;
 
     public boolean dragging = false;
-    public boolean locked = true;
+    public boolean locked = false;
 
     GameView(ClientMessageHandler clientListener, Client myClient) {
         this.clientListener = clientListener;
@@ -89,6 +89,7 @@ public class GameView extends JPanel implements Runnable {
         //Draw
         g.drawRect(drawOffsetX, drawOffsetY, MAP_SIZE * scale, MAP_SIZE * scale);
         for (DrawObject d : drawObjects) {
+            System.out.println("drawing: " + d.toString());
             d.draw(g, drawOffsetX, drawOffsetY, scale);
         }
 
@@ -109,7 +110,7 @@ public class GameView extends JPanel implements Runnable {
         repaint();
     }
 
-    public void update() {
+    public synchronized void update() {
         repaint();
     }
 

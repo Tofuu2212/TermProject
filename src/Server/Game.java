@@ -46,19 +46,30 @@ public class Game implements Runnable {
                 terrainMap[i][j] = input.nextInt();
             }
         }
+
+        player = spawnPlayer(40, 40);
+
         gameEvents = new GameEvents(this);
+    }
+
+
+    public synchronized Champion spawnPlayer(int x, int y) {
+        Champion c = new Champion(this, x, y, numEntities);
+        entities[y * MAP_PARTITIONS / MAP_SIZE][x * MAP_PARTITIONS / MAP_SIZE].add(c);
+        numEntities++;
+        return c;
     }
 
     //y is row, x is col
     //does not check that minion is spawned "in bounds" (0 to MAP_SIZE - 1)
-    public Minion spawnMinion(int x, int y) {
+    public synchronized Minion spawnMinion(int x, int y) {
         Minion m = new Minion(this, x, y, numEntities);
         entities[y * MAP_PARTITIONS / MAP_SIZE][x * MAP_PARTITIONS / MAP_SIZE].add(m);
         numEntities++;
         return m;
     }
 
-    public void removeMinion(Minion m) {
+    public synchronized void removeMinion(Minion m) {
         entities[m.y * MAP_PARTITIONS / MAP_SIZE][m.x * MAP_PARTITIONS / MAP_SIZE].remove(m);
     }
 
@@ -82,7 +93,7 @@ public class Game implements Runnable {
         return intSqrt(temp);
     }
 
-    public ArrayList<Entity> collisions(Entity a, int searchRadius) {
+    public synchronized ArrayList<Entity> collisions(Entity a, int searchRadius) {
         ArrayList<Entity> hit = new ArrayList<>();
 
         //how close are we to a boundary?... do we have to check surrounding cells?
@@ -118,7 +129,7 @@ public class Game implements Runnable {
         while (true) {
             try {
                 update();
-                Thread.sleep(50);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -130,7 +141,7 @@ public class Game implements Runnable {
             for (int j = 0; j < MAP_PARTITIONS; j++) {
                 for (Entity e : entities[j][i]) { //j is y, i is x
                     e.update();
-                    System.out.println("on entity: " + e.toString());
+                    System.out.println("on entity: " + e.toString() + ", " + e.type);
                     Message m = new Message(e.id, false, e.x, e.y, e.type, e.type);
                     playerClient.send(m);
                 }

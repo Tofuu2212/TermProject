@@ -11,6 +11,8 @@ public class Inputs implements MouseListener, MouseMotionListener, KeyListener {
     GameView view;
     ClientMessageHandler clientListener;
 
+    boolean debug = false;
+
     public Inputs(GameView view, ClientMessageHandler clientListener) {
         this.view = view;
         this.clientListener = clientListener;
@@ -25,10 +27,10 @@ public class Inputs implements MouseListener, MouseMotionListener, KeyListener {
         if (SwingUtilities.isRightMouseButton(e) || (SwingUtilities.isLeftMouseButton(e) && e.isControlDown())) {
 
             //debug stuff
-            System.out.println("Right Mouse pressed");
+            if (debug) System.out.println("Right Mouse pressed");
             int x = e.getX();
             int y = e.getY();
-            System.out.println("Clicked on window at: (" + x + ", " + y + ")");
+            if (debug) System.out.println("Clicked on window at: (" + x + ", " + y + ")");
 
             //the real stuff, not sure clamping is necessary ??
             //also, clamps to 255 not 256 ermmm
@@ -36,24 +38,25 @@ public class Inputs implements MouseListener, MouseMotionListener, KeyListener {
             clickedX = clickedX < 0 ? 0 : (clickedX >= view.MAP_SIZE ? view.MAP_SIZE - 1 : clickedX);
             int clickedY = (e.getY() - view.drawOffsetY) / view.scale;
             clickedY = clickedY < 0 ? 0 : (clickedY >= view.MAP_SIZE ? view.MAP_SIZE - 1 : clickedY);
-            System.out.println("Which in game is: (" + clickedX + ", " + clickedY + ")");
+            if (debug) System.out.println("Which in game is: (" + clickedX + ", " + clickedY + ")");
 
-            Message m = new Message(0, false, clickedX, clickedY, Type.RIGHT_CLICK, Type.RIGHT_CLICK);
+            Message m = new Message(42, false, clickedX, clickedY, Type.RIGHT_CLICK, Type.RIGHT_CLICK);
+            if (debug) System.out.println("inputs: sending message " + m.id);
             clientListener.sendMessage(m);
 
         } else if (SwingUtilities.isLeftMouseButton(e)) {
-            System.out.println("Left Mouse pressed");
+            if (debug) System.out.println("Left Mouse pressed");
             view.dragging = true;
             view.cameraDragX = e.getX() - view.cameraX;
             view.cameraDragY = e.getY() - view.cameraY;
         } else {
-            System.out.println("you used middle click probably");
+            if (debug) System.out.println("you used middle click probably");
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("Mouse released");
+        if (debug) System.out.println("Mouse released");
         view.dragging = false;
     }
 
@@ -77,7 +80,7 @@ public class Inputs implements MouseListener, MouseMotionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        System.out.println("a key was pressed");
+        if (debug) System.out.println("a key was pressed");
         if (code == KeyEvent.VK_W) {
             Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
             SwingUtilities.convertPointFromScreen(mouseLocation, view);

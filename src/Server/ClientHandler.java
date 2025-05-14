@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable {
         while (active) {
             try {
                 receive();
-                //Thread.yield(); // or sleep
+                Thread.sleep(1000); // or sleep
             } catch (Exception e) {
                 break;
             }
@@ -66,27 +66,27 @@ public class ClientHandler implements Runnable {
         close();
     }
 
-    public void send(Message message) {
+    public synchronized void send(Message message) {
         try {
             if (debug) System.out.println("In send, msg id: " + message.id);
             out.writeObject(message);
             out.flush();
             if (debug) System.out.println("send msg id " + message.id);
         } catch (Exception e) {
-            System.err.println("client handler send failed");
+            System.err.println("client handler send failed, " + e.getMessage());
         }
     }
 
-    public Message receive() {
+    public synchronized Message receive() {
         Message message = null;
         try {
-            if (debug) System.out.println("In receive");
+            if (debug) System.out.println("In receive for msg id: " + message.id);
             message = (Message) in.readObject();
             addMsgToQueue(message);
             if (debug) System.out.println("read msg id " + message.id);
         } catch (Exception e) {
-            System.err.println("client handler receive failed");
-            active = false;
+            System.err.println("client handler receive failed, " + e.getMessage());
+            //active = false;
         }
         return message;
     }

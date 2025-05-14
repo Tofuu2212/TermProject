@@ -55,6 +55,7 @@ public class Client {
 
         Client client = new Client(hostName, portNumber);
         client.start();
+        client.listen();
 
     }
 }

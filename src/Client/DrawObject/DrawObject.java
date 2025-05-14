@@ -1,6 +1,7 @@
 package Client.DrawObject;
 
 import java.awt.*;
+
 import Message.*;
 
 public abstract class DrawObject {
@@ -20,6 +21,10 @@ public abstract class DrawObject {
 
     public void setID(int id) {
         this.id = id;
+    }
+
+    public String toString() {
+        return this.id + ", " + this.type;
     }
 
     public abstract void draw(Graphics g, int drawOffsetX, int drawOffsetY, int scale);

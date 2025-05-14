@@ -38,10 +38,6 @@ public class GameEvents implements Runnable {
     }
 
     public synchronized void gameStartEvent() {
-        Champion player = new Champion(myGame, 40, 40);
-        player.id = 0;
-        myGame.numEntities++;
-        myGame.player = player;
         myGame.spawnMinion(60, 60);
     }
 }

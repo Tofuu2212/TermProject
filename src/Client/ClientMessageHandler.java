@@ -75,32 +75,33 @@ public class ClientMessageHandler implements Runnable {
                     }
                 }
 
-                //Thread.yield(); // or sleep
+                Thread.sleep(1000); // or sleep
             } catch (Exception e) {
-                break;
+                //break;
             }
         }
 
         close();
     }
 
-    public Message receive() {
+    public synchronized Message receive() {
         Message message = null;
         try {
             message = (Message) in.readObject();
             if (debug) System.out.println("client message handler recieved message id: " + message.id);
         } catch (Exception e) {
-            System.err.println("receive failed");
+            System.err.println("receive failed, " + e.getMessage());
         }
         return message;
     }
 
-    public void sendMessage(Message msg) {
+    public synchronized void sendMessage(Message msg) {
         try {
             out.writeObject(msg);
             out.flush();
+            System.out.println("client message handler sends: " + msg.id);
         } catch (IOException e) {
-            System.err.println("send failed");
+            System.err.println("send failed, "  + e.getMessage());
         }
     }
 
