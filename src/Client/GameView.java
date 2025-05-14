@@ -27,7 +27,7 @@ public class GameView extends JPanel {
                 String text = "Clicked at: (" + x + ", " + y + ")";
 
                 System.out.println("Clicked at: (" + x + ", " + y + ")");
-                clientListener.sendMessage(new Message(text, Type.DUMMY_TWO));
+                //clientListener.sendMessage(new Message(text, Type.DUMMY_TWO));
             }
         });
 

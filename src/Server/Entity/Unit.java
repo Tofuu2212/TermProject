@@ -7,6 +7,9 @@ package Server.Entity;
 import Server.Game;
 
 public class Unit extends Entity {
+
+    int health;
+
     public Unit(Game map, int x, int y, int size) {
         super(map, x, y, size);
     }

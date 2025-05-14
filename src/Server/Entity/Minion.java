@@ -8,5 +8,6 @@ import Server.Game;
 public class Minion extends Unit {
     public Minion(Game map, int x, int y, int size) {
         super(map, x, y, size);
+        health = 100;
     }
 }
