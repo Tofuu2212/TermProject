@@ -29,6 +29,8 @@ public class ClientHandler implements Runnable {
     protected ObjectOutputStream out;
     protected ObjectInputStream in;
 
+    Game game;
+
     public ClientHandler(Socket socket) {
         handlerSocket = socket;
         try {
@@ -37,6 +39,10 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             System.err.println("error setting up client handler");
         }
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     @Override

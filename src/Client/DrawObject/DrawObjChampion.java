@@ -13,4 +13,5 @@ public class DrawObjChampion extends DrawObject {
     public void draw(Graphics2D g2d) {
         g2d.setColor(Color.BLUE);
         g2d.fillOval(x, y, DIAMETER, DIAMETER);
+    }
 }

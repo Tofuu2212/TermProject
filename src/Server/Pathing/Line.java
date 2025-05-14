@@ -70,8 +70,9 @@ public class Line {
         return new Line(P, Q);
     }
 
-    public ArrayList<Point> getPath() {
-        Path path = new Path(p1, p2);
-        return path.path;
-    }
+//    public ArrayList<Point> getPath() {
+//        Path path = new Path(p1, p2);
+//        return path.path;
+//    }
+
 }

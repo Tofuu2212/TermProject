@@ -20,7 +20,9 @@ public class Game implements Runnable {
     //Terrain Map
     public static final int TERRAIN_MAP_SIZE = 64;
     public static int[][] terrainMap = new int[TERRAIN_MAP_SIZE][TERRAIN_MAP_SIZE];
-    String terrainFile = "terrain.txt";
+    String terrainFile = "src/Server/terrain.txt";
+
+    GameEvents gameEvents;
 
     Champion player;
 
@@ -39,6 +41,7 @@ public class Game implements Runnable {
                 terrainMap[i][j] = input.nextInt();
             }
         }
+        gameEvents = new GameEvents(this);
     }
 
     public static int intSqrt(int s) {
@@ -91,9 +94,13 @@ public class Game implements Runnable {
     @Override
     public void run() {
         //some kind of update loop
+        Thread eventThread = new Thread(gameEvents);
+        eventThread.start();
+
         while (true) {
             try {
-                Thread.sleep(1000);
+                System.out.println("Game logic loop gogogo!");
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

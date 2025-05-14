@@ -43,8 +43,8 @@ public class ClientView extends JPanel {
                 String text = textField.getText();
                 System.out.println(text);
 
-                Message message = new Message(text, Type.DUMMY_ONE);
-                myClient.sendMessage(message);
+                //Message message = new Message(text, Type.DUMMY_ONE);
+                //myClient.sendMessage(message);
 
             }
         });

@@ -6,8 +6,8 @@ package Server.Entity;
 import Server.Game;
 
 public class Minion extends Unit {
-    public Minion(Game map, int x, int y, int size) {
-        super(map, x, y, size);
+    public Minion(Game map, int x, int y) {
+        super(map, x, y, 100, 1, 0);
         health = 100;
     }
 }

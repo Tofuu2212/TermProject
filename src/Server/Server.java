@@ -35,15 +35,18 @@ public class Server {
             try {
                 Socket acceptedSocket = myServerSocket.accept();
                 ClientHandler handler = new ClientHandler(acceptedSocket);
-                Thread thread = new Thread(handler);
-                thread.start();
+                Game game = new Game();
+                handler.setGame(game);
+                Thread clientThread = new Thread(handler);
+                clientThread.start();
+                Thread gameThread = new Thread(game);
+                gameThread.start();
 
             } catch (Exception e) {
                 System.err.println(e.getMessage());
                 System.exit(2);
             }
         }
-
     }
 
     public static void main(String[] args) throws IOException {

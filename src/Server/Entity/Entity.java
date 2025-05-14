@@ -13,10 +13,11 @@ public class Entity {
     public int id;
     public Path path;
 
-    public Entity(Game map, int x, int y, int speed, int id) {
+    public Entity(Game map, int x, int y, int size, int speed, int id) {
         this.map = map;
         this.x = x;
         this.y = y;
+        this.size = size;
         this.speed = speed;
         this.id = id;
     }

@@ -10,7 +10,7 @@ public class Unit extends Entity {
 
     int health;
 
-    public Unit(Game map, int x, int y, int size) {
-        super(map, x, y, size);
+    public Unit(Game map, int x, int y, int size, int speed, int id) {
+        super(map, x, y, size, speed, id);
     }
 }

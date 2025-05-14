@@ -14,4 +14,5 @@ public class DrawObjMinion extends DrawObject {
     public void draw(Graphics2D g2d) {
         g2d.setColor(Color.RED);
         g2d.fillOval(x, y, DIAMETER, DIAMETER);
+    }
 }

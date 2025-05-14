@@ -27,8 +27,8 @@ public class Path {
     Line l;
     boolean hasLine = false;
 
-    public Path(Point A, Point B, Entity entity) {
-        this.A = A;
+    public Path(Point B, Entity entity) {
+        this.A = new Point(entity.x, entity.y);
         this.B = B;
         this.entity = entity;
         makePath();

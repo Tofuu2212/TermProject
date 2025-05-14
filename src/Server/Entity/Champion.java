@@ -8,7 +8,7 @@ import Server.Game;
 public class Champion extends Unit {
 
     public Champion(Game map, int x, int y, int size) {
-        super(map, x, y, size);
+        super(map, x, y, size, 100, 10);
         health = 200;
     }
 }
