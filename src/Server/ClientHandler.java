@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable {
             out = new ObjectOutputStream(handlerSocket.getOutputStream());
             in = new ObjectInputStream(handlerSocket.getInputStream());
         } catch (IOException e) {
-            System.err.println("Error initializing streams: " + e.getMessage());
+            System.err.println("error setting up client handler");
         }
     }
 
@@ -43,13 +43,12 @@ public class ClientHandler implements Runnable {
     public void run() {
         while (active) {
             try {
-                serverMessageHandler.parse(receive());
+                ServerMessageParser.parse(receive());
                 Thread.yield(); // or sleep
             } catch (Exception e) {
                 break;
             }
         }
-
         close();
     }
 
@@ -57,8 +56,8 @@ public class ClientHandler implements Runnable {
         try {
             out.writeObject(message);
             out.flush();
-        } catch (Exception e) { //general exception can handle multiple execptions
-            System.err.println("send failed");
+        } catch (Exception e) {
+            System.err.println("client handler send failed");
         }
     }
 
@@ -66,8 +65,8 @@ public class ClientHandler implements Runnable {
         Message message = null;
         try {
             message = (Message) in.readObject();
-        } catch (Exception e) { //general exception can handle multiple execptions
-            System.err.println("receive failed");
+        } catch (Exception e) {
+            System.err.println("client handler receive failed");
             active = false;
         }
         return message;

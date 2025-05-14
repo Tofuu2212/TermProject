@@ -11,9 +11,9 @@ import java.awt.event.MouseEvent;
 public class GameView extends JPanel {
 
     Client myClient;
-    clientMessageHandler clientListener;
+    ClientMessageHandler clientListener;
 
-    GameView(clientMessageHandler clientListener, Client myClient) {
+    GameView(ClientMessageHandler clientListener, Client myClient) {
         this.clientListener = clientListener;
         this.myClient = myClient;
 
@@ -27,7 +27,7 @@ public class GameView extends JPanel {
                 String text = "Clicked at: (" + x + ", " + y + ")";
 
                 System.out.println("Clicked at: (" + x + ", " + y + ")");
-                myClient.sendMessage(new Message(text, Type.DUMMY_TWO));
+                clientListener.sendMessage(new Message(text, Type.DUMMY_TWO));
             }
         });
 

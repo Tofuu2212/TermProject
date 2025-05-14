@@ -1,11 +1,18 @@
 package Client;
 
-//NOTE: there will be a GameView probably later? or everything just in this view idk haha.
+/*
+Current versio
+we are not using client view, we are only using game view and it will
+just choose 1 champ to work with 1 player
+
+this window should allow the user to set their name and choose their champion,
+then click a button when they're ready to play
+
+ */
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 
 import Message.*;
 
@@ -14,9 +21,9 @@ import javax.swing.*;
 public class ClientView extends JPanel {
 
     Client myClient;
-    clientMessageHandler clientListener;
+    ClientMessageHandler clientListener;
 
-    ClientView(clientMessageHandler clientListener, Client myClient) {
+    ClientView(ClientMessageHandler clientListener, Client myClient) {
         this.clientListener = clientListener;
         this.myClient = myClient;
 

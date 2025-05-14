@@ -33,21 +33,16 @@ public class Server {
 
         while (true) {
             try {
-                // accept a connection
                 Socket acceptedSocket = myServerSocket.accept();
-
-                // make handler
                 ClientHandler handler = new ClientHandler(acceptedSocket);
-
-                // start handler in its own thread
                 Thread thread = new Thread(handler);
                 thread.start();
 
             } catch (Exception e) {
                 System.err.println(e.getMessage());
                 System.exit(2);
-            } // catch
-        } // while
+            }
+        }
 
     }
 

@@ -12,7 +12,7 @@ also i renamed this idk if it's in GIT as the correct name??
 
 import Message.*;
 
-public final class serverMessageHandler {
+public final class ServerMessageParser {
 
     static Type currentType;
 
