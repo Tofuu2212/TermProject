@@ -66,7 +66,7 @@ public class ClientHandler implements Runnable {
         close();
     }
 
-    public synchronized void send(Message message) {
+    public void send(Message message) {
         try {
             if (debug) System.out.println("In send, msg id: " + message.id);
             out.writeObject(message);

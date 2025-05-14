@@ -3,10 +3,7 @@ package Server;
 import Server.Entity.*;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 import Message.*;
 
@@ -30,6 +27,8 @@ public class Game implements Runnable {
     public Champion player;
     ClientHandler playerClient;
 
+    Queue<Message> messageQueue;
+
     public Game(ClientHandler playerClient) throws FileNotFoundException {
         this.playerClient = playerClient;
         //MapPartition constructor:
@@ -48,12 +47,13 @@ public class Game implements Runnable {
         }
 
         player = spawnPlayer(40, 40);
-
-        gameEvents = new GameEvents(this);
+        spawnMinion(60, 60);
+        //gameEvents = new GameEvents(this);
+        messageQueue = new LinkedList<Message>();
     }
 
 
-    public synchronized Champion spawnPlayer(int x, int y) {
+    public  Champion spawnPlayer(int x, int y) {
         Champion c = new Champion(this, x, y, numEntities);
         entities[y * MAP_PARTITIONS / MAP_SIZE][x * MAP_PARTITIONS / MAP_SIZE].add(c);
         numEntities++;
@@ -62,14 +62,14 @@ public class Game implements Runnable {
 
     //y is row, x is col
     //does not check that minion is spawned "in bounds" (0 to MAP_SIZE - 1)
-    public synchronized Minion spawnMinion(int x, int y) {
+    public  Minion spawnMinion(int x, int y) {
         Minion m = new Minion(this, x, y, numEntities);
         entities[y * MAP_PARTITIONS / MAP_SIZE][x * MAP_PARTITIONS / MAP_SIZE].add(m);
         numEntities++;
         return m;
     }
 
-    public synchronized void removeMinion(Minion m) {
+    public  void removeMinion(Minion m) {
         entities[m.y * MAP_PARTITIONS / MAP_SIZE][m.x * MAP_PARTITIONS / MAP_SIZE].remove(m);
     }
 
@@ -93,7 +93,7 @@ public class Game implements Runnable {
         return intSqrt(temp);
     }
 
-    public synchronized ArrayList<Entity> collisions(Entity a, int searchRadius) {
+    public ArrayList<Entity> collisions(Entity a, int searchRadius) {
         ArrayList<Entity> hit = new ArrayList<>();
 
         //how close are we to a boundary?... do we have to check surrounding cells?
@@ -129,29 +129,36 @@ public class Game implements Runnable {
         while (true) {
             try {
                 update();
-                Thread.sleep(2000);
+                sendMessages();
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public synchronized void update() {
+    public void update() {
         for (int i = 0; i < MAP_PARTITIONS; i++) {
             for (int j = 0; j < MAP_PARTITIONS; j++) {
                 for (Entity e : entities[j][i]) { //j is y, i is x
                     e.update();
                     System.out.println("on entity: " + e.toString() + ", " + e.type);
                     Message m = new Message(e.id, false, e.x, e.y, e.type, e.type);
-                    playerClient.send(m);
+                    messageQueue.add(m);
                 }
             }
         }
     }
 
-    public synchronized void readMessages() {
+    public void readMessages() {
         for (Message m : playerClient.messageQueue) {
             ServerMessageParser.parse(m, this);
+        }
+    }
+
+    public void sendMessages() {
+        for (Message m : this.messageQueue) {
+            playerClient.send(m);
         }
     }
 }

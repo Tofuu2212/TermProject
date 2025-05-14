@@ -43,11 +43,11 @@ public class Client {
         frame.setVisible(true);
     }
 
-    public void listen() {
-        while (true) {
-            clientListener.receive();
-        }
-    }
+//    public void listen() {
+//        while (true) {
+//            clientListener.receive();
+//        }
+//    }
 
     public static void main(String[] args) throws IOException {
         String hostName = "localhost";
@@ -55,7 +55,7 @@ public class Client {
 
         Client client = new Client(hostName, portNumber);
         client.start();
-        client.listen();
+
 
     }
 }
