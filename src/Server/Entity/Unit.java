@@ -1,0 +1,13 @@
+package Server.Entity;
+
+//Everything with an HP bar abilities is a Unit
+//Projectiles are not units
+//Structures are not units
+
+import Server.Game;
+
+public class Unit extends Entity {
+    public Unit(Game map, int x, int y, int size) {
+        super(map, x, y, size);
+    }
+}
