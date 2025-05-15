@@ -23,8 +23,9 @@ public class Client {
     public void start() {
         Thread thread = new Thread(clientListener);
         thread.start();
-        //createAndShowGUI();
         gameView = new GameView(clientListener, this);
+        Thread gameThread = new Thread(gameView);
+        gameThread.start();
     }
 
     private void createAndShowGUI() {

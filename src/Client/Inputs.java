@@ -21,8 +21,8 @@ public class Inputs implements MouseListener, MouseMotionListener, KeyListener {
     @Override
     public void mousePressed(MouseEvent e) {
         //Mac cannot detect control + click
-        //ChatGPT:  On macOS, Control + Click is interpreted by the OS as a right-click after processing the event.
-        //          But Java sees it as a left-click with the Control key held down
+        //On macOS, Control + Click is interpreted by the OS as a right-click after processing the event.
+        //But Java sees it as a left-click with the Control key held down
         //the solution is to use isControlDown() with left click
         if (SwingUtilities.isRightMouseButton(e) || (SwingUtilities.isLeftMouseButton(e) && e.isControlDown())) {
 

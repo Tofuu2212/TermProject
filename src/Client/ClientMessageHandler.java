@@ -75,7 +75,7 @@ public class ClientMessageHandler implements Runnable {
                     }
                 }
 
-                Thread.sleep(1000); // or sleep
+                Thread.sleep(50); // or sleep
             } catch (Exception e) {
                 //break;
             }

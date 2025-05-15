@@ -23,7 +23,7 @@ public class Entity {
         this.size = size;
         this.speed = speed;
         this.id = id;
-        setPath(0, 0);
+        setPath(256, 256);
     }
 
     public void setPath(int newX, int newY) {
@@ -44,9 +44,11 @@ public class Entity {
     }
 
     private void logic() {
-        Point n = path.generateNextPoint();
-        x = (int) n.x;
-        y = (int) n.y;
+//        Point n = path.generateNextPoint();
+//        x = (int) n.x;
+//        y = (int) n.y;
+        x++;
+        y++;
     }
 
     public String toString() {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class GameView extends JPanel implements Runnable {
 
-    final int MAP_SIZE = 256;
+    final int MAP_SIZE = 512;
 
     Client myClient;
     ClientMessageHandler clientListener;

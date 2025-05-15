@@ -1,15 +1,7 @@
 /**
- * SERVER PURPOSE:
  * Accept clients and create a client handler for them.
- *
- * RUNNING SERVER:
- * just press run before running any clients
- *
- * TO DO:
- * add a game object field and tell client handlers when they're in a game
- * should it be multiple games can be running at the same time or just one?
- *
- */
+ * */
+
 
 package Server;
 
